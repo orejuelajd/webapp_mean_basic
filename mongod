@@ -1,0 +1,38 @@
+mongod --bind_ip=$IP --dbpath=data --nojournal --rest "$@"
+mongod --bind_ip=$IP --nojournal
+
+
+---------------------------------------------------------
+ERROR al ejecutar cualquier comando relacionado con mongo
+---------------------------------------------------------
+
+Si al ejecutar mongod o mongo en el bash sale este error
+
+Error parsing command line: unknown option small
+try 'mongod --help' for more information
+
+Para mi la solución es ejecutar estos comando como super user con sudo
+
+* sudo mongod
+* sudo mongo
+* sudo mongod --bind_ip=$IP --nojournal
+
+-------------------------------
+ERROR Unclean shutdown detected.
+-------------------------------
+
+Cuando al ejecutarse el demonio de mongod con mongod --bind_ip=$IP --nojournal 
+arroje un error relacionado con esto:
+
+************** 
+Unclean shutdown detected.
+Please visit http://dochub.mongodb.org/core/repair for recovery instructions.
+*************
+
+lo que se debe hacer es:
+
+1) ir a /data/db/ y ahi elimimar un archivo llamado mongod.lock con el comando 
+   "sudo rm mongod.lock"
+2) ejecutar el comando "sudo mongod --repair"
+3) Ahora si podemos ejecutar el comando "sudo mongod --bind_ip=$IP --nojournal" 
+   para dejar corriendo el demonio de mongod

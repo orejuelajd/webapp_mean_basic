@@ -1,23 +1,13 @@
-/*
-  On "/" : API without authentication
-  On "/app" : API with authentication
-*/
-const restify = require('express-restify-mongoose')
-const mongoose = require('mongoose')
-var express = require('express')
-var app = express()
-var bodyParser = require('body-parser')
-var session = require('express-session')
-var router_gaspaper_app = require("./routes_app.js")
-var session_middleware = require("./middlewares/session.js")
-var service = require('./service.js')
-require('./db.js');
+console.log('Servidor Basico');
 
-var jsonParser = bodyParser.json();
-app.use(bodyParser.json({ type: 'application/json' }));
+var http = require('http');
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var port = 8080;
+
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true}));
 app.use(bodyParser.json({limit: '10mb'}));
-app.use(express.static(__dirname + "/app"));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -25,28 +15,42 @@ app.use(function(req, res, next) {
   next();
 });
 
-// ExpressJs Sessions
-app.set('trust proxy', 1) //trust first proxy
-app.use(session({
-  secret: "secret_token",
-  resave: false,
-  saveUninitialized: false
-}))
+function supportCrossOriginScript(req, res, next) 
+{
+	res.status(200);
+	res.header('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE');
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Content-Type");
+	next();
+}
 
-// API express
-app.use('/app', session_middleware)
-app.use('/app', router_gaspaper_app)
-app.post('/sessions', service.sessions)
-app.get('/login', service.login)
-app.get('/logout', service.logout)
-// API express
+var service = require('./service.js');
 
-// Restify API ----------------
-const router = express.Router()
-restify.serve(router, mongoose.model('register', register))
-app.use(router)
-// Restify API ----------------
+app.use(express.static(__dirname + "/app"));
 
-app.listen(8000, function(req, res){
-  console.log("Server started")
-})
+app.get('/create/:collection/:v1/:v2/:v3/:v4/:v5/:v6/:v7/:v8',service.create);
+app.get('/read/:collection',service.read);
+app.get('/delete/:collection/:param/:value',service.delete);
+
+//Métodos que se está utilizando actualmente
+app.get("/registrar/:collection/:v1/:v2/:v3/:v4/:v5/:v6/:v7/:v8", service.registrar);
+app.get("/login/:collection/:user/:password", service.login);
+app.get('/read/:collection/:param/:value',service.readX);
+app.get('/read/:collection/:param1/:value1/:param2/:value2',service.readX2);
+app.get('/update/:collection/:v1/:v2/:v3/:v4/:v5/:v6/:v7/:v8/:id',service.update);
+//app.get("/buscarUsuarios/:collection/:param/:value", service.buscarUsuarios);
+
+app.get('/buscarPrestamo/:collection/:param1/:v1/:param2/:v2',service.buscarPrestamo);
+app.get('/agregarElemento/:collection/:id/:v1/:v2',service.agregarElemento);
+app.get('/agregarElemento/:collection/:id/:v1/:v2/:v3/:v4/:v5/:v6',service.agregarElemento2);
+app.get('/eliminarElemento/:collection/:id/:v1',service.eliminarElemento);
+app.get('/eliminarVideojuego/:collection/:id',service.eliminarVideojuego);
+app.get('/eliminarVideojuegoCompra/:collection/:idUsuario/:idVideojuego',service.eliminarVideojuegoCompra);
+
+app.get('/cambiarCampo/:collection/:id/:v1',service.cambiarCampo);
+
+//Agregar una imagen
+app.post('/crear',supportCrossOriginScript,service.crearImagen);
+
+http.createServer(app).listen(port);
+console.log("Servidor Backend por el puerto " + port);

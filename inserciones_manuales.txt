@@ -1,0 +1,34 @@
+// Para insertar un nuevo usuario en la base de datos
+
+db.usuarios.insert(
+{
+    nombre:"Pepito Perez",
+    user: "pep",
+    password: "123",
+    correo: "pep@gmail.com",
+    fechaNacimiento: "01-01-2000",
+    direccion: "Avenida siempre viva # 742",
+    telefono: "1234567890",
+    tipo: "usuario"
+});
+
+
+db.usuarios.insert(
+{
+    nombre:"Carolina Perez",
+    user: "caro",
+    password: "12",
+    correo: "caro@gmail.com",
+    fechaNacimiento: "01-01-2001",
+    direccion: "Avenida siempre viva # 743",
+    telefono: "0987654321",
+    tipo: "usuario"
+});
+
+http://tienda-backend-orejuelajd.c9users.io:8080/login/usuario/pep/123
+http://tienda-backend-orejuelajd.c9users.io:8080/read/usuario/user/pep
+http://tienda-backend-orejuelajd.c9users.io:8080/registrar/usuario/carolina/caro/12/caro@gmail.com/01-01-2001/avenida-siempre-viva-no-743/0987654321/usuario
+
+http://tienda-backend-orejuelajd.c9users.io:8080/login/usuario/Juan%20David%20Orejuela%20Bola%C3%B1os/1000710083379740
+http://tienda-backend-orejuelajd.c9users.io:8080/read/usuario/
+http://tienda-backend-orejuelajd.c9users.io:8080/registrar/usuario/a/JuanDavidOrejuelaBolaños/012345678901234/a/01-01-2001/a/a/a
