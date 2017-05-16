@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-db_url = 'localhost/virtual';
+//db_url = 'localhost/virtual';
+db_url = 'mongodb://root:root@ds143231.mlab.com:43231/virtual';
 db = mongoose.createConnection(db_url);
 
 var autoIncrement = require('mongoose-auto-increment');
