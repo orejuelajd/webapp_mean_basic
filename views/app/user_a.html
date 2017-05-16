@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>User A</title>
+    <script type="text/javascript">
+      function sendRegister(){
+        var data = parseFloat(document.getElementById("input_data").value);
+        var id = "A";
+        var timestamp = new Date();
+        var json = JSON.stringify({
+          "id": id,
+          "timestamp": timestamp,
+          "data": data
+        });
+        
+        fetch("http://localhost:8000/api/v1/register/",
+        {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: json
+        })
+        .then(function(res){ return res.json();})
+        .then(function(data){ alert(JSON.stringify(data))})
+      }
+    </script>
+  </head>
+  <body>
+    <h1>User A</h1>
+      Data (Number): <input type="text" id="input_data" value="1"/>
+      <br><br>
+      <button onclick=sendRegister()>Send</button>
+      <br><br>
+      <a href="http://localhost:8000/logout/">
+        <button>Logout</button>
+      </a>
+  </body>
+</html>
